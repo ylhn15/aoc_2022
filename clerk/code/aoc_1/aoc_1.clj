@@ -41,8 +41,6 @@
 
 ; In case the Elves get hungry and need extra snacks, they need to know which Elf to ask: they'd like to know how many Calories are being carried by the Elf carrying the most Calories. In the example above, this is 24000 (carried by the fourth Elf).
 
-; Find the Elf carrying the most Calories. How many total Calories is that Elf carrying?
-
 {:nextjournal.clerk/visibility {:result :hide}}
 (defn filter-empty-strings [m]
   (->> m
@@ -53,10 +51,22 @@
 
 (defn parse-map-values->long [m] (map #(parse-long %) m))
 
+(defn parse-input [input]
+  (->> input
+       filter-empty-strings
+       (map #(parse-map-values->long %))
+       (map #(reduce + %))))
+
+; ## 1.1 Find the Elf carrying the most Calories. How many total Calories is that Elf carrying?
 {:nextjournal.clerk/visibility {:result :show}}
 (clerk/code (->> "code/aoc_1/input.txt"
-                 filter-empty-strings
-                 (map #(parse-map-values->long %))
-                 (map #(reduce + %))
+                 parse-input
                  (apply max)))
+
+; ## 1.2 Find the Elf carrying the most Calories. How many total Calories is that Elf carrying?
+(clerk/code (->> "code/aoc_1/input.txt"
+                 parse-input
+                 (sort >)
+                 (take 3)
+                 (reduce +)))
 
