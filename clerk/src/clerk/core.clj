@@ -6,6 +6,8 @@
 ;; either call `clerk/show!` explicitly
 (clerk/show! "code/aoc_1/aoc_1.clj")
 
+(clerk/build! {:paths ["code/aoc_1/aoc_1.clj" "code/aoc_2/aoc_2.clj"] :bundle true :ssr true :out-path "public/build"})
+
 ;; or let Clerk watch the given `:paths` for changes
 (clerk/serve! {:watch-paths ["code"]})
 

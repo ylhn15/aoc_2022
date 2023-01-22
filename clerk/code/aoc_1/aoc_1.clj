@@ -1,7 +1,7 @@
 ^{:nextjournal.clerk/visibility {:code :hide :result :hide}}
 (require '[nextjournal.clerk :as clerk]
          '[clojure.string :as str])
-;# --- Day 1: Calorie Countingg ---
+;# --- Day 1: Calorie Counting ---
 
 ; Santa's reindeer typically eat regular reindeer food, but they need a lot of magical energy to deliver presents on Christmas. For that, their favorite snack is a special type of star fruit that only grows deep in the jungle. The Elves have brought you on their annual expedition to the grove where the fruit grows.
 
@@ -44,34 +44,19 @@
 ; Find the Elf carrying the most Calories. How many total Calories is that Elf carrying?
 
 {:nextjournal.clerk/visibility {:result :hide}}
-(defn partition-with
-  [f coll]
-  (lazy-seq
-   (when-let [s (seq coll)]
-     (let [run (cons (first s) (take-while (complement f) (next s)))]
-       (cons run (partition-with f (seq (drop (count run) s))))))))
-
-(defn string-empty? [s]
-  (= (count (str s)) 0))
-
-(defn string-not-empty? [s]
-  (not (= (count (str s)) 0)))
-
-(defn split-at-empty-string [m]
-  (partition-with #(string-empty? %) m))
-
 (defn filter-empty-strings [m]
-  (map #(filter string-not-empty? %)
-       (split-at-empty-string
-        (str/split-lines
-         (slurp m)))))
+  (->> m
+       slurp
+       str/split-lines
+       (partition-by str/blank?)
+       (map #(remove str/blank? %))))
 
-(defn parse-int-in-map [m] (map #(Integer/parseInt %) m))
-
-(defn sum-list [m]
-  (map #(reduce + %) m))
+(defn parse-map-values->long [m] (map #(parse-long %) m))
 
 {:nextjournal.clerk/visibility {:result :show}}
-(clerk/code (apply max (sum-list (map #(parse-int-in-map %)
-                                      (filter-empty-strings "code/aoc_1/input.txt")))))
+(clerk/code (->> "code/aoc_1/input.txt"
+                 filter-empty-strings
+                 (map #(parse-map-values->long %))
+                 (map #(reduce + %))
+                 (apply max)))
 
