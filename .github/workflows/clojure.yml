@@ -19,6 +19,9 @@ jobs:
     - name: Build notebook
       run: lein run
     - name: 🛠️ Configure LFTP
-      run: mkdir ~/.lftp && echo "set ssl:verify-certificate false;" >> ~/.lftp/rc
+      run: |
+        mkdir ~/.lftp
+        echo "set ssl:ca-file ~/.lftp/certs.crt;set ssl:check-hostname no;" >> ~/.lftp/rc
+        echo "${{ secrets.FTP_CERTS_BASE64 }}" | base64 --decode > ~/.lftp/certs.crt
     - name: Deploy to webpage
       run: lftp sftp://${{ secrets.FTP_PATH }} --user ${{ secrets.FTP_USER }} --password ${{ secrets.FTP_PASS }} -e "set ftp:ssl-allow no; mirror -R public/build ${{ secrets.FTP_FOLDER }} --only-newer; quit"
