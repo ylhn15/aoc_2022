@@ -21,3 +21,8 @@ jobs:
       run: lein run
     - name: check
       run: ls
+    - name: 🚀 Deploy
+      uses: JamesIves/github-pages-deploy-action@4.1.6
+      with:
+        branch: gh-pages
+        folder: public/build
