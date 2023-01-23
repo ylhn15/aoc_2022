@@ -20,7 +20,5 @@ jobs:
       run: lein run
     - name: check
       run: ls
-    - name: Deploy to GitHub Pages
-      uses: JamesIves/github-pages-deploy-action@v4.4.1
-      with:
-        folder: public/build
+    - name: Deploy to webpage
+      run: lftp sftp://${{ secrets.FTP_PATH }} --user ${{ secrets.FTP_USER }} --password ${{ secrets.FTP_PASS }} -e "set ftp:ssl-allow no; mirror -R public/build ${{ secrets.FTP_FOLDER }} --only-newer; quit"
