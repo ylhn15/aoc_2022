@@ -3,9 +3,7 @@ name: Clojure CI
 on:
   push:
     branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
-
+    
 jobs:
   build:
 
@@ -24,5 +22,4 @@ jobs:
     - name: 🚀 Deploy
       uses: JamesIves/github-pages-deploy-action@4.1.6
       with:
-        branch: gh-pages
         folder: public/build
