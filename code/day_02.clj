@@ -1,8 +1,7 @@
 ^{:nextjournal.clerk/visibility {:code :hide :result :hide}}
 (require '[clojure.string :as str])
 
-;# Advent of Code day 2
-;### --- Day 2: Rock Paper Scissors ---
+;# --- Day 2: Rock Paper Scissors ---
 ;The Elves begin to set up camp on the beach. To decide whose tent gets to be closest to the snack storage, a giant Rock Paper Scissors tournament is already in progress.
 
 ;Rock Paper Scissors is a game between two players. Each game contains many rounds; in each round, the players each simultaneously choose one of Rock, Paper, or Scissors using a hand shape. Then, a winner for that round is selected: Rock defeats Scissors, Scissors defeats Paper, and Paper defeats Rock. If both players choose the same shape, the round instead ends in a draw.
@@ -30,11 +29,9 @@
 ;In this example, if you were to follow the strategy guide, you would get a total score of 15 (8 + 1 + 6).
 
 {:nextjournal.clerk/visibility {:result :hide}}
-(def human-selection {"X" "Rock" "Y" "Paper" "Z" "Scissors"})
+(def selection {"X" "Rock" "Y" "Paper" "Z" "Scissors" "A" "Rock" "B" "Paper" "C" "Scissors"})
 {:nextjournal.clerk/visibility {:result :hide}}
-(def computer-selection {"A" "Rock" "B" "Paper" "C" "Scissors"})
-{:nextjournal.clerk/visibility {:result :hide}}
-(def selection-points {"X" 1 "Y" 2 "Z" 3})
+(def selection-points {"X" 1 "Y" 2 "Z" 3 "A" 1 "B" 2 "C" 3})
 {:nextjournal.clerk/visibility {:result :hide}}
 (def game-points {:Win 6 :Loss 0 :Draw 3})
 {:nextjournal.clerk/visibility {:result :hide}}
@@ -42,35 +39,35 @@
   (let [computer (first input) human (last input)]
     (cond
       (and
-       (= (computer-selection computer) "Rock")
-       (= (human-selection human) "Paper"))
+       (= (selection computer) "Rock")
+       (= (selection human) "Paper"))
       (+ (game-points :Win) (selection-points human))
       (and
-       (= (computer-selection computer) "Rock")
-       (= (human-selection human) "Scissors"))
+       (= (selection computer) "Rock")
+       (= (selection human) "Scissors"))
       (+ (game-points :Loss) (selection-points human))
       (and
-       (= (computer-selection computer) "Paper")
-       (= (human-selection human) "Scissors"))
+       (= (selection computer) "Paper")
+       (= (selection human) "Scissors"))
       (+ (game-points :Win) (selection-points human))
       (and
-       (= (computer-selection computer) "Paper")
-       (= (human-selection human) "Rock"))
+       (= (selection computer) "Paper")
+       (= (selection human) "Rock"))
       (+ (game-points :Loss) (selection-points human))
       (and
-       (= (computer-selection computer) "Scissors")
-       (= (human-selection human) "Rock"))
+       (= (selection computer) "Scissors")
+       (= (selection human) "Rock"))
       (+ (game-points :Win) (selection-points human))
       (and
-       (= (computer-selection computer) "Scissors")
-       (= (human-selection human) "Paper"))
+       (= (selection computer) "Scissors")
+       (= (selection human) "Paper"))
       (+ (game-points :Loss) (selection-points human))
-      (= (computer-selection computer) (human-selection human))
+      (= (selection computer) (selection human))
       (+ (game-points :Draw) (selection-points human))
       :else "Invalid input")))
 ;What would your total score be if everything goes exactly according to your strategy guide?
 {:nextjournal.clerk/visibility {:result :show}}
-(->> "input/day02/input.txt"
+(->> "input/day_02/input.txt"
      slurp
      str/split-lines
      (mapv #(str/split % #" "))
@@ -88,40 +85,39 @@
 ; Now that you're correctly decrypting the ultra top secret strategy guide, you would get a total score of 12.
 
 {:nextjournal.clerk/visibility {:result :hide}}
-(def selection-points-computer {"A" 1 "B" 2 "C" 3})
 {:nextjournal.clerk/visibility {:result :hide}}
 (defn cheat-condition [input]
   (let [computer (first input) human (last input)]
     (cond
-      (= human "Y") (+ (game-points :Draw) (selection-points-computer computer))
+      (= human "Y") (+ (game-points :Draw) (selection-points computer))
       (and
-       (= (computer-selection computer) "Paper")
+       (= (selection computer) "Paper")
        (= human "X"))
       (+ (game-points :Loss) (selection-points "X"))
       (and
-       (= (computer-selection computer) "Scissors")
+       (= (selection computer) "Scissors")
        (= human "X"))
       (+ (game-points :Loss) (selection-points "Y"))
       (and
-       (= (computer-selection computer) "Rock")
+       (= (selection computer) "Rock")
        (= human "X"))
       (+ (game-points :Loss) (selection-points "Z"))
       (and
-       (= (computer-selection computer) "Paper")
+       (= (selection computer) "Paper")
        (= human "Z"))
       (+ (game-points :Win) (selection-points "Z"))
       (and
-       (= (computer-selection computer) "Scissors")
+       (= (selection computer) "Scissors")
        (= human "Z"))
       (+ (game-points :Win) (selection-points "X"))
       (and
-       (= (computer-selection computer) "Rock")
+       (= (selection computer) "Rock")
        (= human "Z"))
       (+ (game-points :Win) (selection-points "Y"))
       :else "Invalid input")))
 ; Following the Elf's instructions for the second column, what would your total score be if everything goes exactly according to your strategy guide?
 {:nextjournal.clerk/visibility {:result :show}}
-(->> "input/day02/input.txt"
+(->> "input/day_02/input.txt"
      slurp
      str/split-lines
      (mapv #(str/split % #" "))

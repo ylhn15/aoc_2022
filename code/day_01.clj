@@ -58,7 +58,7 @@
 
 ;### Find the Elf carrying the most Calories. How many total Calories is that Elf carrying?
 {:nextjournal.clerk/visibility {:result :show}}
-(clerk/code (->> "input/day01/input.txt"
+(clerk/code (->> "input/day_01/input.txt"
                  parse-input
                  (apply max)))
 
@@ -71,7 +71,7 @@
 ; In the example above, the top three Elves are the fourth Elf (with 24000 Calories), then the third Elf (with 11000 Calories), then the fifth Elf (with 10000 Calories). The sum of the Calories carried by these three elves is 45000.
 
 ;### Find the top three Elves carrying the most Calories. How many Calories are those Elves carrying in total?
-(clerk/code (->> "input/day01/input.txt"
+(clerk/code (->> "input/day_01/input.txt"
                  parse-input
                  (sort >)
                  (take 3)
