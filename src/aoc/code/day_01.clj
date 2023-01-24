@@ -1,6 +1,8 @@
 ^{:nextjournal.clerk/visibility {:code :hide :result :hide}}
-(require '[nextjournal.clerk :as clerk]
-         '[clojure.string :as str])
+(ns aoc.code.day_01
+  (:gen-class)
+  (:require [clojure.string :as str]))
+
 ;# --- Day 1: Calorie Counting ---
 
 ; Santa's reindeer typically eat regular reindeer food, but they need a lot of magical energy to deliver presents on Christmas. For that, their favorite snack is a special type of star fruit that only grows deep in the jungle. The Elves have brought you on their annual expedition to the grove where the fruit grows.
@@ -58,10 +60,12 @@
 
 ;### Find the Elf carrying the most Calories. How many total Calories is that Elf carrying?
 {:nextjournal.clerk/visibility {:result :show}}
-(clerk/code (->> "input/day_01/input.txt"
-                 parse-input
-                 (apply max)))
+(defn solution-1 [input]
+  (->> input
+       parse-input
+       (apply max)))
 
+(solution-1 "input/day_01/input.txt")
 ;# --- Part Two ---
 
 ; By the time you calculate the answer to the Elves' question, they've already realized that the Elf carrying the most Calories of food might eventually run out of snacks.
@@ -71,9 +75,11 @@
 ; In the example above, the top three Elves are the fourth Elf (with 24000 Calories), then the third Elf (with 11000 Calories), then the fifth Elf (with 10000 Calories). The sum of the Calories carried by these three elves is 45000.
 
 ;### Find the top three Elves carrying the most Calories. How many Calories are those Elves carrying in total?
-(clerk/code (->> "input/day_01/input.txt"
-                 parse-input
-                 (sort >)
-                 (take 3)
-                 (reduce +)))
+(defn solution-2 [input]
+  (->> input
+       parse-input
+       (sort >)
+       (take 3)
+       (reduce +)))
 
+(solution-2 "input/day_01/input.txt")

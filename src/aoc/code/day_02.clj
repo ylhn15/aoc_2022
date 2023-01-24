@@ -1,5 +1,7 @@
 ^{:nextjournal.clerk/visibility {:code :hide :result :hide}}
-(require '[clojure.string :as str])
+(ns aoc.code.day_02
+  (:gen-class)
+  (:require [clojure.string :as str]))
 
 ;# --- Day 2: Rock Paper Scissors ---
 ;The Elves begin to set up camp on the beach. To decide whose tent gets to be closest to the snack storage, a giant Rock Paper Scissors tournament is already in progress.
@@ -29,11 +31,21 @@
 ;In this example, if you were to follow the strategy guide, you would get a total score of 15 (8 + 1 + 6).
 
 {:nextjournal.clerk/visibility {:result :hide}}
-(def selection {"X" "Rock" "Y" "Paper" "Z" "Scissors" "A" "Rock" "B" "Paper" "C" "Scissors"})
+(def selection {"X" "Rock"
+                "Y" "Paper"
+                "Z" "Scissors"
+                "A" "Rock"
+                "B" "Paper"
+                "C" "Scissors"})
 {:nextjournal.clerk/visibility {:result :hide}}
-(def selection-points {"X" 1 "Y" 2 "Z" 3 "A" 1 "B" 2 "C" 3})
+(def selection-points {"X" 1
+                       "Y" 2
+                       "Z" 3
+                       "A" 1
+                       "B" 2
+                       "C" 3})
 {:nextjournal.clerk/visibility {:result :hide}}
-(def game-points {:Win 6 :Loss 0 :Draw 3})
+(def game-points {"Win" 6 "Loss" 0 "Draw" 3})
 {:nextjournal.clerk/visibility {:result :hide}}
 (defn winning-condition [input]
   (let [computer (first input) human (last input)]
@@ -41,29 +53,29 @@
       (and
        (= (selection computer) "Rock")
        (= (selection human) "Paper"))
-      (+ (game-points :Win) (selection-points human))
+      (+ (game-points "Win") (selection-points human))
       (and
        (= (selection computer) "Rock")
        (= (selection human) "Scissors"))
-      (+ (game-points :Loss) (selection-points human))
+      (+ (game-points "Loss") (selection-points human))
       (and
        (= (selection computer) "Paper")
        (= (selection human) "Scissors"))
-      (+ (game-points :Win) (selection-points human))
+      (+ (game-points "Win") (selection-points human))
       (and
        (= (selection computer) "Paper")
        (= (selection human) "Rock"))
-      (+ (game-points :Loss) (selection-points human))
+      (+ (game-points "Loss") (selection-points human))
       (and
        (= (selection computer) "Scissors")
        (= (selection human) "Rock"))
-      (+ (game-points :Win) (selection-points human))
+      (+ (game-points "Win") (selection-points human))
       (and
        (= (selection computer) "Scissors")
        (= (selection human) "Paper"))
-      (+ (game-points :Loss) (selection-points human))
+      (+ (game-points "Loss") (selection-points human))
       (= (selection computer) (selection human))
-      (+ (game-points :Draw) (selection-points human))
+      (+ (game-points "Draw") (selection-points human))
       :else "Invalid input")))
 ;What would your total score be if everything goes exactly according to your strategy guide?
 {:nextjournal.clerk/visibility {:result :show}}
@@ -85,35 +97,34 @@
 ; Now that you're correctly decrypting the ultra top secret strategy guide, you would get a total score of 12.
 
 {:nextjournal.clerk/visibility {:result :hide}}
-{:nextjournal.clerk/visibility {:result :hide}}
 (defn cheat-condition [input]
   (let [computer (first input) human (last input)]
     (cond
-      (= human "Y") (+ (game-points :Draw) (selection-points computer))
+      (= human "Y") (+ (game-points "Draw") (selection-points computer))
       (and
        (= (selection computer) "Paper")
        (= human "X"))
-      (+ (game-points :Loss) (selection-points "X"))
+      (+ (game-points "Loss") (selection-points "X"))
       (and
        (= (selection computer) "Scissors")
        (= human "X"))
-      (+ (game-points :Loss) (selection-points "Y"))
+      (+ (game-points "Loss") (selection-points "Y"))
       (and
        (= (selection computer) "Rock")
        (= human "X"))
-      (+ (game-points :Loss) (selection-points "Z"))
+      (+ (game-points "Loss") (selection-points "Z"))
       (and
        (= (selection computer) "Paper")
        (= human "Z"))
-      (+ (game-points :Win) (selection-points "Z"))
+      (+ (game-points "Win") (selection-points "Z"))
       (and
        (= (selection computer) "Scissors")
        (= human "Z"))
-      (+ (game-points :Win) (selection-points "X"))
+      (+ (game-points "Win") (selection-points "X"))
       (and
        (= (selection computer) "Rock")
        (= human "Z"))
-      (+ (game-points :Win) (selection-points "Y"))
+      (+ (game-points "Win") (selection-points "Y"))
       :else "Invalid input")))
 ; Following the Elf's instructions for the second column, what would your total score be if everything goes exactly according to your strategy guide?
 {:nextjournal.clerk/visibility {:result :show}}
