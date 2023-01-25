@@ -4,7 +4,7 @@
 
 ;; start Clerk's built-in webserver on the default port 7777, opening the browser when done
 ; (clerk/serve! {:browse? true})
-; (clerk/show! "src/aoc/code/day_03.clj")
+; (clerk/show! "src/aoc/code/day_04.clj")
 
 ;; either call `clerk/show!` explicitly
 (defn -main []
