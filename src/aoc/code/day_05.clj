@@ -130,7 +130,10 @@
 (defn move-crate [crates moves]
   (->> moves
        (remove-from-crate crates)
-       (assoc (assoc crates (dec (:to moves)) (add-to-crate crates moves)) (dec (:from moves)))))
+       (assoc (assoc crates
+                     (dec (:to moves))
+                     (add-to-crate crates moves))
+              (dec (:from moves)))))
 
 {:nextjournal.clerk/visibility {:result :hide}}
 (defn solution-1 [input]
