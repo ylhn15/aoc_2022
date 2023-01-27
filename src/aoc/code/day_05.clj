@@ -95,8 +95,8 @@
 (defn row-value->move [input]
   (let [[amount  from  to] input]
     {:amount (parse-long amount)
-     :from (parse-long from)
-     :to (parse-long to)}))
+     :from (dec (parse-long from))
+     :to (dec (parse-long to))}))
 
 {:nextjournal.clerk/visibility {:result :hide}}
 (defn get-moves [input]
@@ -109,41 +109,118 @@
        (mapv #(row-value->move %))))
 
 {:nextjournal.clerk/visibility {:result :hide}}
-(defn add-to-crate [crates moves]
-  (->> (:from moves)
-       dec
-       (nth crates)
-       (take (:amount moves))
-       (into (vec (reverse (nth crates (dec (:to moves))))))
-       reverse
-       vec))
+(defn add-to-crate [stacks moves]
+  (vec (reverse
+        (into
+         (vec (reverse (nth stacks (:to moves))))
+         (take (:amount moves) (nth stacks (:from moves)))))))
 
 {:nextjournal.clerk/visibility {:result :hide}}
 (defn remove-from-crate [crates moves]
   (->> (:from moves)
-       dec
        (nth crates)
        (drop (:amount moves))
        vec))
 
 {:nextjournal.clerk/visibility {:result :hide}}
-(defn move-crate [crates moves]
+(defn move-stack [crates moves]
   (->> moves
        (remove-from-crate crates)
        (assoc (assoc crates
-                     (dec (:to moves))
+                     (:to moves)
                      (add-to-crate crates moves))
-              (dec (:from moves)))))
+              (:from moves))))
 
 {:nextjournal.clerk/visibility {:result :hide}}
 (defn solution-1 [input]
   (apply str (->> input
                   get-moves
-                  (reduce move-crate (get-stacks-as-vectors input))
+                  (reduce move-stack (get-stacks-as-vectors input))
                   (map first))))
-
-; After the rearrangement procedure completes, what crate ends up on top of each stack?
+;) After the rearrangement procedure completes, what crate ends up on top of each stack?
 {:nextjournal.clerk/visibility {:result :show}}
 (solution-1 "input/day_05/input.txt")
 
+;## --- Part Two ---
 
+; As you watch the crane operator expertly rearrange the crates, you notice the process isn't following your prediction.
+
+; Some mud was covering the writing on the side of the crane, and you quickly wipe it away. The crane isn't a CrateMover 9000 - it's a CrateMover 9001.
+
+; The CrateMover 9001 is notable for many new and exciting features: air conditioning, leather seats, an extra cup holder, and the ability to pick up and move multiple crates at once.
+
+; Again considering the example above, the crates begin in the same configuration:
+
+;```
+;     [D]    
+; [N] [C]    
+; [Z] [M] [P]
+;  1   2   3 
+
+;```
+; Moving a single crate from stack 2 to stack 1 behaves the same as before:
+
+;```
+; [D]        
+; [N] [C]    
+; [Z] [M] [P]
+;  1   2   3 
+
+;```
+; However, the action of moving three crates from stack 1 to stack 3 means that those three moved crates stay in the same order, resulting in this new configuration:
+
+;```
+;         [D]
+;         [N]
+;     [C] [Z]
+;     [M] [P]
+;  1   2   3
+
+;```
+; Next, as both crates are moved from stack 2 to stack 1, they retain their order as well:
+
+;```
+;         [D]
+;         [N]
+; [C]     [Z]
+; [M]     [P]
+;  1   2   3
+;```
+; Finally, a single crate is still moved from stack 1 to stack 2, but now it's crate C that gets moved:
+
+;```
+;         [D]
+;         [N]
+;         [Z]
+; [M] [C] [P]
+;  1   2   3
+;```
+
+; In this example, the CrateMover 9001 has put the crates in a totally different order: MCD.
+{:nextjournal.clerk/visibility {:result :hide}}
+(defn add-multiple-to-crate [stacks moves]
+  (vec (reverse
+        (into
+         (vec (reverse (nth stacks (:to moves))))
+         (reverse (take (:amount moves) (nth stacks (:from moves))))))))
+
+{:nextjournal.clerk/visibility {:result :hide}}
+(defn move-multiple-stacks [crates moves]
+  (->> moves
+       (remove-from-crate crates)
+       (assoc (assoc crates
+                     (:to moves)
+                     (add-multiple-to-crate crates moves))
+              (:from moves))))
+
+{:nextjournal.clerk/visibility {:result :hide}}
+(defn solution-2 [input]
+  (apply str
+         (->> input
+              get-moves
+              (reduce move-multiple-stacks
+                      (get-stacks-as-vectors input))
+              (map first))))
+
+{:nextjournal.clerk/visibility {:result :show}}
+(solution-2 "input/day_05/input.txt")
