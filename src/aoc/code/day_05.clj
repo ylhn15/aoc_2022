@@ -109,11 +109,14 @@
        (mapv #(row-value->move %))))
 
 {:nextjournal.clerk/visibility {:result :hide}}
-(defn add-to-crate [stacks moves]
+(defn add-to-crate [stacks moves move-multiple?]
   (vec (reverse
         (into
          (vec (reverse (nth stacks (:to moves))))
-         (take (:amount moves) (nth stacks (:from moves)))))))
+         (if move-multiple?
+           (reverse (take (:amount moves) (nth stacks (:from moves))))
+           ; else
+           (take (:amount moves) (nth stacks (:from moves))))))))
 
 {:nextjournal.clerk/visibility {:result :hide}}
 (defn remove-from-crate [crates moves]
@@ -128,7 +131,7 @@
        (remove-from-crate crates)
        (assoc (assoc crates
                      (:to moves)
-                     (add-to-crate crates moves))
+                     (add-to-crate crates moves false))
               (:from moves))))
 
 {:nextjournal.clerk/visibility {:result :hide}}
@@ -198,19 +201,12 @@
 
 ; In this example, the CrateMover 9001 has put the crates in a totally different order: MCD.
 {:nextjournal.clerk/visibility {:result :hide}}
-(defn add-multiple-to-crate [stacks moves]
-  (vec (reverse
-        (into
-         (vec (reverse (nth stacks (:to moves))))
-         (reverse (take (:amount moves) (nth stacks (:from moves))))))))
-
-{:nextjournal.clerk/visibility {:result :hide}}
 (defn move-multiple-stacks [crates moves]
   (->> moves
        (remove-from-crate crates)
        (assoc (assoc crates
                      (:to moves)
-                     (add-multiple-to-crate crates moves))
+                     (add-to-crate crates moves true))
               (:from moves))))
 
 {:nextjournal.clerk/visibility {:result :hide}}
