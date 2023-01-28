@@ -28,10 +28,10 @@
 
 ; Here are a few more examples:
 
-;     bvwbjplbgvbhsrlpgdmjqwftvncz: first marker after character 5
-;     nppdvjthqldpwncqszvftbrmjlhg: first marker after character 6
-;     nznrnfrfntjfmvfwmzdfjlvtqnbhcprsg: first marker after character 10
-;     zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw: first marker after character 11
+;* bvwbjplbgvbhsrlpgdmjqwftvncz: first marker after character 5
+;* nppdvjthqldpwncqszvftbrmjlhg: first marker after character 6
+;* nznrnfrfntjfmvfwmzdfjlvtqnbhcprsg: first marker after character 10
+;* zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw: first marker after character 11
 
 {:nextjournal.clerk/visibility {:result :hide}}
 (defn get-marker-index [input length]
@@ -46,7 +46,7 @@
 (get-marker-index (slurp "input/day_06/input.txt") 4)
 ; The first half of this puzzle is complete! It provides one gold star: *
 
-; --- Part Two ---
+;## --- Part Two ---
 
 ; Your device's communication system is correctly detecting packets, but still isn't working. It looks like it also needs to look for messages.
 
@@ -54,11 +54,11 @@
 
 ; Here are the first positions of start-of-message markers for all of the above examples:
 
-;     mjqjpqmgbljsphdztnvjfqwrcgsmlb: first marker after character 19
-;     bvwbjplbgvbhsrlpgdmjqwftvncz: first marker after character 23
-;     nppdvjthqldpwncqszvftbrmjlhg: first marker after character 23
-;     nznrnfrfntjfmvfwmzdfjlvtqnbhcprsg: first marker after character 29
-;     zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw: first marker after character 26
+;* mjqjpqmgbljsphdztnvjfqwrcgsmlb: first marker after character 19
+;* bvwbjplbgvbhsrlpgdmjqwftvncz: first marker after character 23
+;* nppdvjthqldpwncqszvftbrmjlhg: first marker after character 23
+;* nznrnfrfntjfmvfwmzdfjlvtqnbhcprsg: first marker after character 29
+;* zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw: first marker after character 26
 
 ; How many characters need to be processed before the first start-of-message marker is detected?
 {:nextjournal.clerk/visibility {:result :show}}
